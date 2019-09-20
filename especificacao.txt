@@ -1,0 +1,37 @@
+## Site casanipo ##
+
+Duas listas ou dois BDs diferentes com as mesmas pessoas
+
+# Lista da geladeira #
+
+São 4 geladeiras, então sai 4 pessoas da lista toda lavagem de geladeira. 
+Essa lavagem se da na segunda e quarta semana do mês.
+A lavagem dura de quinta-feira a domingo. Portanto em setembro foi do dia 12 ao 15 e 26 ao 29.
+Por mês saem 8 pessoas do inicio e voltam para o final da lista, 4 na primeira semana e 4 na segunda semana. 
+Isso acontece de forma instantanea 
+No começo do mês já são selecionadas as 8 pessoas e alocadas uma em cada geladeira (geladeira de 1 a 4) 
+(quem lava qual geladeira não importa) - a pessoa pode ser alocada na ordem que chega da fila.
+O resultado esperado é uma tabela contendo o nome da pessoa, a geladeira que ela irá lavar e qual o intervalo de dias que essas 4 pessoas têm para lavar a geladeira (isso deve ser feito para a segunda e quarta semana)
+
+# Lista do fogão/microondas #
+
+O fogão e microondas são lavados toda segunda, quarta e sexta. Portanto temos que alocar uma pessoa para cada segunda, quarta e sexta de cada semana. Essa lista será atualizada mensalmente e o número de pessoas é variável de acordo com a quantidade de segundas, quartas e sextas que existem no mês (proporcional).
+O resultado é uma tabela contendo o nome da pessoa e o dia que ela irá lavar.
+
+# Multa #
+
+Caso a pessoa não lave alguma coisa na data limite, o seu nome deve voltar no mês seguinte para o início da lista (ou seja, no mês seguinte ela terá novamente que lavar, já que não fez isso anteriormente). Se possível, colocar uma mensagem em frente ao nome (não lavou no mês passado), sendo que quando ela voltar para o final da fila essa mensagem deve sumir.
+
+# Exportação das tabelas #
+
+Um botão que exporte as tabelas em pdf, imagem ou algum formato bonito para imprimir.
+
+# Opções do admin #
+
+- Adicionar novo morador
+- Excluir morador
+- Aplicar multa (voltar para o inicio da lista)
+
+-- Mostrar a tabela do mês atual e em baixo a tabela do mês seguinte
+
+	# Na tabela do mês seguinte podemos escrever "Tabela sujeita a alterações em casos de alguém voltar para a lista de lavagem no mês seguinte, seja por multa ou descumprimento de alguma regra"
