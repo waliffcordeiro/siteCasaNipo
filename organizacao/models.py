@@ -39,3 +39,9 @@ class Pessoas(models.Model):
     prioridadeFogao = models.IntegerField()
     prioridadeGeladeira = models.IntegerField()
 
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = 'Pessoa'
+        verbose_name_plural = "Pessoas"
