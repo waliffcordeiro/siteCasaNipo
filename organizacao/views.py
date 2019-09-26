@@ -12,7 +12,9 @@ mes = c.monthdays2calendar(data_atual.year, data_atual.month)
 def core(request):
     template_name = 'core.html'
     context = {
-        'Geladeira': Geladeira.objects.all()
+        'Geladeira': Geladeira.objects.all(),
+        'TrabalhoGeladeira': TrabalhoGeladeira.objects.all(),
+        'TrabalhoFogao': TrabalhoFogao.objects.all()
     }
 
     return render(request, template_name, context)

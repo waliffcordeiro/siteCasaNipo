@@ -3,13 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <!-- Full Callendar -->
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css"/>
+
+    <!-- Font Awesome -->
+    <script crossorigin="anonymous" defer
+            integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH"
+            src="https://use.fontawesome.com/releases/v5.8.2/js/all.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/locale/pt-br.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'></script>
 </head>
 <body>
-<h1> Deu bom</h1>
-{{ Geladeira.dia_inicial_limpeza }}
-<form action="{% url 'organizacao:atualiza' %}" method=POST >
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="text-center">Casa Nipo</h1>
+        <script>
+            $(function () {
+                $('#calendar').fullCalendar({
+                    plugins: ['interaction', 'dayGrid', 'timeGrid', 'list'],
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        // dayGridMonth, timeGridMonth, timeGridDay not workings
+                        right: 'dayGridMonth, timeGridMonth, timeGridDay, month , listMonth'
+                    },
+                    buttonIcons: false,
+                    navLinks: true,
+                    eventLimit: true,
+                    locale: 'pt-br',
+                    eventRender: function (trabObj, $el) {
+                        // Analisando se o evento é o dia inteiro para modificar layout do hover
+                        var conteudo;
+                        conteudo = '<div>' + trabObj.title + '</div>' +
+                            '<i class="fas fa-map-marker-alt"></i>' + ' ' + trabObj.id + '</div>';
+
+
+                        $el.popover({
+                            title: trabObj.title,
+                            html: true,
+                            content: conteudo,
+                            trigger:
+                                'hover',
+                            placement:
+                                'top',
+                            container:
+                                'body'
+                        })
+                        ;
+
+                    },
+                    events: [
+                        {% for trabalho in TrabalhoGeladeira %}
+                            {
+                                id: '{{ trabalho.id }}',
+                                title: '{{ trabalho.pessoa.nome }}',
+                                start: '{{ trabalho.dia|date:'Y-m-d' }}',
+                                end: '{{ trabalho.dia|date:'Y-m' }}',
+                                start_time: '00:00',
+                                end_time: '23:59',
+                                backgroundColor: '#001652',
+                                borderColor: '#001652',
+                                textColor: 'white',
+                                url: 'teste'
+                            },
+                        {% endfor %}
+
+                        {% for trabalho in TrabalhoFogao %}
+                            {
+                                id: '{{ trabalho.id }}',
+                                title: '{{ trabalho.pessoa.nome }}',
+                                start: '{{ trabalho.dia|date:'Y-m-d' }}',
+                                end: '{{ trabalho.dia|date:'Y-m-d' }}',
+                                start_time: '00:00',
+                                end_time: '23:59',
+                                backgroundColor: '#ff0300',
+                                borderColor: '#001652',
+                                textColor: 'white',
+                                url: 'teste'
+                            },
+                        {% endfor %}
+                    ]
+                });
+            });
+        </script>
+        <br>
+        <div id='calendar'></div>
+    </div>
+</div>
+<form action="{% url 'organizacao:atualiza' %}" method=POST>
     {% csrf_token %}
     <button id="approve-btn" type="submit">Approve</button>
-    </form>
+</form>
 </body>
 </html>
