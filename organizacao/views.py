@@ -56,5 +56,25 @@ def lavaGeladeira():
         pessoa.prioridadeGeladeira -= quantidadePessoas
         pessoa.save()
 
+
 def lavaFogao():
     quantidadeFogao = MicroEFogao.objects.count()
+    fogoeos = MicroEFogao.objects.all()
+    segundas, quartas, sextas = getDays.diasFogaoMicroondas(mes)
+    diaLimpeza = segundas + quartas + sextas
+    quantidadePessoas = (len(segundas) + len(quartas) + len(sextas)) * quantidadeFogao
+    listPessoastrabalho = Pessoas.objects.order_by('prioridadeFogao')[:quantidadePessoas]
+    listpessoasnaoTrabalho = Pessoas.objects.order_by('prioridadeFogao')[quantidadePessoas:]
+    pessoasTotal = (len(listPessoastrabalho) + len(listpessoasnaoTrabalho))
+    for idx, pessoa in enumerate(listPessoastrabalho):
+        # Das pessoas que trabalharem, iremos aumentar sua prioridade
+        # Aumento proporcional ao número de pessoas
+        pessoa.prioridadeFogao += (pessoasTotal - quantidadePessoas)
+        pessoa.save()
+        TrabalhoFogao.objects.create(pessoa=pessoa, fogao=fogoeos[idx % quantidadeFogao],
+                                     dia=diaLimpeza[idx])
+    for pessoa in listpessoasnaoTrabalho:
+        print(pessoa)
+        # Das pessoas que seguem a lista iremos subtrair a quantidade de pessoas que trabalharam
+        pessoa.prioridadeGeladeira -= quantidadePessoas
+        pessoa.save()

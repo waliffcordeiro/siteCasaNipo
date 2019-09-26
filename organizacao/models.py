@@ -69,3 +69,6 @@ class TrabalhoFogao(models.Model):
     pessoa = models.ForeignKey(Pessoas, on_delete=models.CASCADE)
     fogao = models.ForeignKey(MicroEFogao, on_delete=models.CASCADE)
     dia = models.DateField('Dia')
+
+    def __str__(self):
+        return str(self.pessoa) + " - " + str(self.fogao) + " - " + " Dia " + str(self.dia.day)
