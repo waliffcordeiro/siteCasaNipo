@@ -20,5 +20,6 @@ import organizacao.views as views
 app_name = 'organizacao'
 
 urlpatterns = [
-    path('', views.core)
+    path('', views.core),
+    path('atualiza/', views.atualiza_lista, name='atualiza')
 ]

@@ -7,5 +7,9 @@
 <body>
 <h1> Deu bom</h1>
 {{ Geladeira.dia_inicial_limpeza }}
+<form action="{% url 'organizacao:atualiza' %}" method=POST >
+    {% csrf_token %}
+    <button id="approve-btn" type="submit">Approve</button>
+    </form>
 </body>
 </html>
