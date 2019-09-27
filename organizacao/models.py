@@ -60,6 +60,7 @@ class TrabalhoGeladeira(models.Model):
     pessoa = models.ForeignKey(Pessoas, on_delete=models.CASCADE)
     geladeira = models.ForeignKey(Geladeira, on_delete=models.CASCADE)
     dia = models.DateField('Dia')
+    dia_fim = models.DateField('último dia', default="1999-01-01")
 
     def __str__(self):
         return str(self.pessoa) + " - " + str(self.geladeira) + " - " + " Dia " + str(self.dia.day)

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Geladeira, Pessoas, TrabalhoFogao, TrabalhoGeladeira, MicroEFogao
 from Scripts import getDays
+from datetime import timedelta
 
 c = getDays.calendar.Calendar(0)
 data_atual = getDays.date.today()
@@ -48,10 +49,10 @@ def lavaGeladeira():
         pessoa.save()
         if idx < (quantidadePessoas / 2):
             TrabalhoGeladeira.objects.create(pessoa=pessoa, geladeira=geladeiras[idx % quantidadeGeladeira],
-                                             dia=segundaSemana[0])
+                                             dia=segundaSemana[0], dia_fim=segundaSemana[3] + timedelta(days=1))
         else:
             TrabalhoGeladeira.objects.create(pessoa=pessoa, geladeira=geladeiras[idx % quantidadeGeladeira],
-                                             dia=quartaSemana[0])
+                                             dia=quartaSemana[0], dia_fim=quartaSemana[3] + timedelta(days=1))
     for pessoa in listpessoasnaoTrabalho:
         print(pessoa)
         # Das pessoas que seguem a lista iremos subtrair a quantidade de pessoas que trabalharam
@@ -78,5 +79,5 @@ def lavaFogao():
     for pessoa in listpessoasnaoTrabalho:
         print(pessoa)
         # Das pessoas que seguem a lista iremos subtrair a quantidade de pessoas que trabalharam
-        pessoa.prioridadeGeladeira -= quantidadePessoas
+        pessoa.prioridadeFogao -= quantidadePessoas
         pessoa.save()
