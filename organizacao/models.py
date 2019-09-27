@@ -62,6 +62,18 @@ class Pessoas(models.Model):
         else:
             super(Pessoas, self).save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        print('vamo simbora')
+        pessoas = Pessoas.objects.all()
+        for pessoa in pessoas:
+            if pessoa.prioridadeFogao > self.prioridadeFogao:
+                pessoa.prioridadeFogao -= 1
+            if pessoa.prioridadeGeladeira > self.prioridadeGeladeira:
+                pessoa.prioridadeGeladeira -= 1
+
+            pessoa.save()
+        super(Pessoas, self).delete(*args, **kwargs)
+
     def __str__(self):
         return self.nome
 

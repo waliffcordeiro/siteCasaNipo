@@ -8,7 +8,7 @@ admin.site.register(Geladeira)
 
 class PessoasAdmin(admin.ModelAdmin):
     list_display = ('nome', 'prioridadeFogao', 'prioridadeGeladeira')
-
+    exclude = ('prioridadeFogao', 'prioridadeGeladeira', )
 
 admin.site.register(Pessoas, PessoasAdmin)
 admin.site.register(TrabalhoGeladeira)
