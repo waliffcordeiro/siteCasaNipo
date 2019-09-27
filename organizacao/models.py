@@ -48,6 +48,20 @@ class Pessoas(models.Model):
     prioridadeFogao = models.IntegerField()
     prioridadeGeladeira = models.IntegerField()
 
+    def save(self, *args, **kwargs):
+        # Primeira vez
+        if not self.pk:
+            pessoas = Pessoas.objects.all()
+            for pessoa in pessoas:
+                pessoa.prioridadeFogao += 1
+                pessoa.prioridadeGeladeira += 1
+                pessoa.save()
+            self.prioridadeGeladeira = 0
+            self.prioridadeFogao = 0
+            super(Pessoas, self).save(*args, **kwargs)
+        else:
+            super(Pessoas, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.nome
 
