@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Casa Nipo</title>
 
     <!-- Full Callendar -->
     <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css"/>
@@ -25,7 +25,7 @@
 <body>
 <div class="container">
     <div class="jumbotron">
-        <h1 class="text-center">Casa Nipo</h1>
+        <h1 class="text-center">Calendário de Limpeza</h1>
         <script>
             $(function () {
                 $('#calendar').fullCalendar({
@@ -44,7 +44,7 @@
                         // Analisando se o evento é o dia inteiro para modificar layout do hover
                         var conteudo;
                         conteudo = '<div>' + trabObj.title + '</div>' +
-                            '<i class="fas fa-map-marker-alt"></i>' + ' ' + trabObj.id + '</div>';
+                            '<i class="fas fa-map-marker-alt"></i>' + ' ' + trabObj.nome + '</div>';
 
 
                         $el.popover({
@@ -68,10 +68,10 @@
                                 title: '{{ trabalho.pessoa.nome }}',
                                 start: '{{ trabalho.dia|date:'Y-m-d' }}',
                                 end: '{{ trabalho.dia_fim|date:'Y-m-d' }}',
+                                nome: 'Geladeira {{  trabalho.geladeira.numGeladeira }}',
                                 backgroundColor: '#001652',
                                 borderColor: '#001652',
                                 textColor: 'white',
-                                url: 'teste'
                             },
                         {% endfor %}
 
@@ -81,12 +81,12 @@
                                 title: '{{ trabalho.pessoa.nome }}',
                                 start: '{{ trabalho.dia|date:'Y-m-d' }}',
                                 end: '{{ trabalho.dia|date:'Y-m-d' }}',
+                                nome: 'Fogão e Micro-ondas',
                                 start_time: '00:00',
                                 end_time: '23:59',
                                 backgroundColor: '#ff0300',
                                 borderColor: '#001652',
                                 textColor: 'white',
-                                url: 'teste'
                             },
                         {% endfor %}
                     ]
@@ -97,9 +97,6 @@
         <div id='calendar'></div>
     </div>
 </div>
-<form action="{% url 'organizacao:atualiza' %}" method=POST>
-    {% csrf_token %}
-    <button id="approve-btn" type="submit">Approve</button>
-</form>
+
 </body>
 </html>

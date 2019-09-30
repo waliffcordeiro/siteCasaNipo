@@ -41,12 +41,18 @@ class MicroEFogao(models.Model):
     def __str__(self):
         return "Microondas e Fogão"
 
+    class Meta:
+        verbose_name = 'Micro-ondas e Fogão'
+        verbose_name_plural = "Micro-ondas e Fogões"
+
 
 class Pessoas(models.Model):
-    nome = models.CharField(max_length=120)
+    nome = models.CharField(max_length=120,
+                            help_text='Na inserção de novas pessoas, a prioridade será zero. Caso queira alterar, '
+                                      'entre na aba da pessoa e altere o valor manualmente')
     # Com o menor numero de prioridade é quem vai lavar
-    prioridadeFogao = models.IntegerField()
-    prioridadeGeladeira = models.IntegerField()
+    prioridadeFogao = models.IntegerField(blank=True, default=0)
+    prioridadeGeladeira = models.IntegerField(blank=True, default=0)
 
     def save(self, *args, **kwargs):
         # Primeira vez
@@ -79,7 +85,7 @@ class Pessoas(models.Model):
 
     class Meta:
         verbose_name = 'Pessoa'
-        verbose_name_plural = "Pessoas"
+        verbose_name_plural = "Lista de Pessoas"
 
 
 class TrabalhoGeladeira(models.Model):
@@ -91,6 +97,10 @@ class TrabalhoGeladeira(models.Model):
     def __str__(self):
         return str(self.pessoa) + " - " + str(self.geladeira) + " - " + " Dia " + str(self.dia.day)
 
+    class Meta:
+        verbose_name = 'Relação de Limpeza da Geladeira'
+        verbose_name_plural = "Relação de Limpeza das Geladeiras"
+
 
 class TrabalhoFogao(models.Model):
     pessoa = models.ForeignKey(Pessoas, on_delete=models.CASCADE)
@@ -99,3 +109,7 @@ class TrabalhoFogao(models.Model):
 
     def __str__(self):
         return str(self.pessoa) + " - " + str(self.fogao) + " - " + " Dia " + str(self.dia.day)
+
+    class Meta:
+        verbose_name = 'Relação de Limpeza do Fogão'
+        verbose_name_plural = "Relação de Limpeza dos Fogões"

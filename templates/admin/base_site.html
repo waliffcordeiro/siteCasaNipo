@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+{% block title %}Site Administrativo - Casa Nipo{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name"> Site Casa Nipo - Painel Administrativo</h1>
+
+{% endblock %}
+{% block pretitle %}{% endblock %}
+
+{% block content_title %}
+    {% if request.path == '/admin/' %}
+    <div class="app-auth module">
+        <table>
+            <caption>
+                <a href="{% url 'organizacao:atualiza' %}" class="section" title="Atualizar Lista de limpeza">Atualizar
+                    Lista de
+                    limpeza</a>
+            </caption>
+
+            <tbody>
+            <tr class="model-group">
+
+                <th scope="row"><a href="{% url 'organizacao:atualiza' %}">Página de atualização</a></th>
+
+
+                <td></td>
+
+
+                <td></td>
+
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

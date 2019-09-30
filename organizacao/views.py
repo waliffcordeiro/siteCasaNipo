@@ -2,10 +2,8 @@ from django.shortcuts import render
 from .models import Geladeira, Pessoas, TrabalhoFogao, TrabalhoGeladeira, MicroEFogao
 from Scripts import getDays
 from datetime import timedelta
-
-c = getDays.calendar.Calendar(0)
-data_atual = getDays.date.today()
-mes = c.monthdays2calendar(data_atual.year, data_atual.month)
+from django.contrib.auth.decorators import login_required
+from .forms import MesForm
 
 
 # Create your views here.
@@ -21,23 +19,35 @@ def core(request):
     return render(request, template_name, context)
 
 
+@login_required
 def atualiza_lista(request):
     template_name = 'atualiza.html'
-
-    context = {
-
-    }
-
-    lavaGeladeira()
-    lavaFogao()
-
+    form = MesForm(request.POST or None)
+    context = {}
+    # Se o forms for válido
+    if form.is_valid():
+        # Coleta a opção
+        mes = form.cleaned_data.get('field')
+        mes = int(mes)
+        # Mostra somente daquele tipo especifico
+        c = getDays.calendar.Calendar(0)
+        data_atual = getDays.date.today()
+        mes_aux = c.monthdays2calendar(data_atual.year, mes)
+        trabalho_no_mes = TrabalhoFogao.objects.filter(dia__month=mes)
+        if len(trabalho_no_mes) > 0:
+            context["Erro"] = "Já foi atualizada a lista deste mês!"
+        else:
+            lavaGeladeira(mes_aux, mes)
+            lavaFogao(mes_aux, mes)
+            context["Sucesso"] = "A lista do mês foi atualizada!"
+    context["form"] = form
     return render(request, template_name, context)
 
 
-def lavaGeladeira():
+def lavaGeladeira(semana, mes):
     quantidadeGeladeira = Geladeira.objects.count()
     geladeiras = Geladeira.objects.all()
-    segundaSemana, quartaSemana = getDays.diasGeladeira(mes)  # Lista com os dias de trabalho
+    segundaSemana, quartaSemana = getDays.diasGeladeira(semana,mes)  # Lista com os dias de trabalho
     quantidadePessoas = (quantidadeGeladeira * 2)
     listpessoasTrabalho = Pessoas.objects.order_by('prioridadeGeladeira')[:quantidadePessoas]
     listpessoasnaoTrabalho = Pessoas.objects.order_by('prioridadeGeladeira')[quantidadePessoas:]
@@ -60,10 +70,10 @@ def lavaGeladeira():
         pessoa.save()
 
 
-def lavaFogao():
+def lavaFogao(semana, mes):
     quantidadeFogao = MicroEFogao.objects.count()
     fogoeos = MicroEFogao.objects.all()
-    segundas, quartas, sextas = getDays.diasFogaoMicroondas(mes)
+    segundas, quartas, sextas = getDays.diasFogaoMicroondas(semana, mes)
     diaLimpeza = segundas + quartas + sextas
     quantidadePessoas = (len(segundas) + len(quartas) + len(sextas)) * quantidadeFogao
     listPessoastrabalho = Pessoas.objects.order_by('prioridadeFogao')[:quantidadePessoas]

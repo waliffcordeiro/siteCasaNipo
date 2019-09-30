@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Seleção do Mês</title>
 </head>
 <body>
 
-{% for pessoa in pessoasantes %}
-    {{ pessoa.nome }}
-    {{ pessoa.prioridadeGeladeira }}<br>
-{% endfor %}
-<h5>-----------------------------------</h5>
-{% for pessoa in pessoasnovas %}
-    {{ pessoa.nome }}
-    {{ pessoa.prioridadeGeladeira }}<br>
-{% endfor %}
+<h1> {{ Sucesso }}</h1>
+<h1> {{ Erro }}</h1>
+<form action="{% url 'organizacao:atualiza' %}" method=POST>
+    {% csrf_token %}
+    <h3>Escolha o mês que será atualizado:</h3>
+    <div class="text-center"> {{ form }} <input class="btn btn-outline-dark" type="submit" value="Atualizar"
+                                                onmouseover="this.style.backgroundColor='#02801b', this.style.color='#f8fff9'"
+                                                onmouseout="this.style.backgroundColor='', this.style.color=''">
+    </div>
+</form>
 
 </body>
 </html>

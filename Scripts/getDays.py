@@ -3,7 +3,7 @@ from datetime import date, datetime
 
 ####################### Obtendo as segundas, quartas e sextas ###################
 
-def diasFogaoMicroondas(mes):
+def diasFogaoMicroondas(mes, intMes):
     data_atual = date.today()
     # Listas
     segundas = []
@@ -17,11 +17,11 @@ def diasFogaoMicroondas(mes):
         for diaMes, diaSem in semana:
             if diaSem == SEG and diaMes:
                 # and diaMes é para excluir os dias 0
-                segundas.append((datetime(year=data_atual.year, month=data_atual.month, day=diaMes)))
+                segundas.append((datetime(year=data_atual.year, month=intMes, day=diaMes)))
             if diaSem == QUA and diaMes:
-                quartas.append((datetime(year=data_atual.year, month=data_atual.month, day=diaMes)))
+                quartas.append((datetime(year=data_atual.year, month=intMes, day=diaMes)))
             if diaSem == SEX and diaMes:
-                sextas.append((datetime(year=data_atual.year, month=data_atual.month, day=diaMes)))
+                sextas.append((datetime(year=data_atual.year, month=intMes, day=diaMes)))
     return segundas, quartas, sextas
 
 
@@ -31,7 +31,7 @@ def diasFogaoMicroondas(mes):
 # Verificar se devemos considerar a segunda semana sendo mes[1] ou mes[2]
 # Essa diferença se dá quando um mês não começa na segunda-feira, os dias antes da segunda são preenchidos com 0
 
-def diasGeladeira(semana):
+def diasGeladeira(semana, mes):
     data_atual = date.today()
     segundaSemana = []
     quartaSemana = []
@@ -46,17 +46,18 @@ def diasGeladeira(semana):
     # dia[0] é o dia de forma numérico e dia[1] representa o dia da semana (0 = segunda e 6 = domingo)
     for dia in semana[second]:
         if dia[1] >= QUI:
-            segundaSemana.append(datetime(year=data_atual.year, month=data_atual.month, day=dia[0]))
+            segundaSemana.append(datetime(year=data_atual.year, month=mes, day=dia[0]))
             # Quinta a domingo
     for dia in semana[fourth]:
         if dia[1] >= QUI:
-            quartaSemana.append(datetime(year=data_atual.year, month=data_atual.month, day=dia[0]))
+            quartaSemana.append(datetime(year=data_atual.year, month=mes, day=dia[0]))
             # Quinta a domingo
     return segundaSemana, quartaSemana
 
 
 if __name__ == "__main__":
     c = calendar.Calendar(0)
+    data_atual = date.today()
     mes = c.monthdays2calendar(data_atual.year, data_atual.month)
 
     segundas, quartas, sextas = diasFogaoMicroondas(mes)
