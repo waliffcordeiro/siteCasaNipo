@@ -69,7 +69,6 @@ class Pessoas(models.Model):
             super(Pessoas, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        print('vamo simbora')
         pessoas = Pessoas.objects.all()
         for pessoa in pessoas:
             if pessoa.prioridadeFogao > self.prioridadeFogao:
